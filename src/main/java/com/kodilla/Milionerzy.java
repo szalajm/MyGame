@@ -121,6 +121,47 @@ public class Milionerzy extends Application {
         PlayerScore yourScore = new PlayerScore();
         PlayerScore compScore = new PlayerScore();
 
+
+        class ButtonAction {
+            private QAndAs theQuestion;
+
+            public ButtonAction (QAndAs theQuestion) {
+                this.theQuestion = theQuestion;
+            }
+
+            public void setButtonAction(int buttonIndex) {
+                if(theQuestion.getCorrectAnswerIndex()== buttonIndex && theQuestion.getScore()==100000) {
+                    questionBody.setText("JESTE\u015A MILIONEREM!!!");
+                    questionLadder.setDisable(true);
+                } else if (theQuestion.getCorrectAnswerIndex() == buttonIndex && theQuestion.getScore() != 1000000) {
+                    questionBody.setText("CORRECT ANSWER!");
+                } else {
+                    questionBody.setText("GAME OVER!");
+                    questionLadder.setDisable(true);
+                }
+            }
+
+            public void setScore() {
+                if(theQuestion.getScore() < 10000) {
+                    playerScore1.setText("Your score is" + theQuestion.getScore());
+                    playerScore2.setText("Your guaranteed win is 0");
+                }else if(theQuestion.getScore() >= 10000 && theQuestion.getScore() < 75000) {
+                    playerScore1.setText("Your score is" + theQuestion.getScore());
+                    playerScore2.setText("Your guaranteed win is 10000");
+                }else if(theQuestion.getScore() >=75000 && theQuestion.getScore() < 125000) {
+                    playerScore1.setText("Your score is" + theQuestion.getScore());
+                    playerScore2.setText("Your guaranteed win is 75000");
+                }else if(theQuestion.getScore() >= 125000 && theQuestion.getScore()<1000000) {
+                    playerScore1.setText("Your score is" + theQuestion.getScore());
+                    playerScore2.setText("Your guaranteed win is 125000");
+                }else{
+                    playerScore1.setText("Your score is" + theQuestion.getScore());
+                    playerScore2.setText("Your guaranteed win is 1000000!!!");
+                }
+            }
+
+        }
+
         List<String> valueList = Arrays.asList("500", "1000", "2000", "5000", "10000", "20000", "40000", "75000", "125000", "250000", "500000", "1000000");
         for (String value : valueList) {
             Random random = new Random();
@@ -148,13 +189,30 @@ public class Milionerzy extends Application {
                     answer2.setDisable(true);
                     answer3.setDisable(true);
                     answer4.setDisable(true);
-                    if(actualQuestion.getCorrectAnswerIndex() == 0 && actualQuestion.getCorrectAnswerIndex() == 0) {
+                    ButtonAction action1 = new ButtonAction(actualQuestion);
+                    action1.setButtonAction(0);
+                    action1.setScore();
+                    /**if (actualQuestion.getCorrectAnswerIndex() == 0 && actualQuestion.getScore() == 1000000) {
+                        questionBody.setText("JESTE\u015A MILIONEREM!");
+                        questionLadder.setDisable(true);
+                        yourScore.addScore(actualQuestion.getScore());
+                        compScore.addScore(actualQuestion.getScore());
+                        playerScore1.setText("Your score is " + yourScore.totalScore());
+                        playerScore2.setText("Comp score is " + compScore.totalScore());
+                    } else if (actualQuestion.getCorrectAnswerIndex() == 0 && actualQuestion.getScore() != 1000000) {
                         questionBody.setText("CORRECT ANSWER: DRAW!");
                         yourScore.addScore(actualQuestion.getScore());
                         compScore.addScore(actualQuestion.getScore());
                         playerScore1.setText("Your score is " + yourScore.totalScore());
                         playerScore2.setText("Comp score is " + compScore.totalScore());
                     } else if (actualQuestion.getCorrectAnswerIndex()== 0 && actualQuestion.getCorrectAnswerIndex() != n) {
+                        if(actualQuestion.getScore()== 1000000){
+                            questionBody.setText("JESTE\u015A MILIONEREM!");
+                            yourScore.addScore(actualQuestion.getScore());
+                            compScore.addScore(actualQuestion.getScore());
+                            playerScore1.setText("Your score is " + yourScore.totalScore());
+                            playerScore2.setText("Comp score is " + compScore.totalScore());
+                        }
                         questionBody.setText("WIN! Keep on playing!");
                         yourScore.addScore(actualQuestion.getScore());
                         playerScore1.setText("Your score is " + yourScore.totalScore());
@@ -169,19 +227,37 @@ public class Milionerzy extends Application {
                         playerScore1.setText("Your score is " + yourScore.totalScore() );
                         playerScore2.setText("Comp score is " + compScore.totalScore());
                     }
+                     */
                 });
                 answer2.setText(actualQuestion.getAnswers().get(1));
                 answer2.setOnAction(event -> {
                     answer1.setDisable(true);
                     answer3.setDisable(true);
                     answer4.setDisable(true);
-                    if(actualQuestion.getCorrectAnswerIndex()==1 && actualQuestion.getCorrectAnswerIndex() == n) {
+                    ButtonAction action2 = new ButtonAction(actualQuestion);
+                    action2.setButtonAction(1);
+                    action2.setScore();
+                    /**if(actualQuestion.getCorrectAnswerIndex()==1 && actualQuestion.getCorrectAnswerIndex() == n && actualQuestion.getScore()== 1000000) {
+                        questionBody.setText("JESTE\u015A MILIONEREM!");
+                        questionLadder.setDisable(true);
+                        yourScore.addScore(actualQuestion.getScore());
+                        compScore.addScore(actualQuestion.getScore());
+                        playerScore1.setText("Your score is " + yourScore.totalScore());
+                        playerScore2.setText("Comp score is " + compScore.totalScore());
+                    } else if(actualQuestion.getCorrectAnswerIndex()==1 && actualQuestion.getCorrectAnswerIndex() == n && actualQuestion.getScore() != 1000000) {
                         questionBody.setText("CORRECT ANSWER: DRAW!");
                         yourScore.addScore(actualQuestion.getScore());
                         compScore.addScore(actualQuestion.getScore());
                         playerScore1.setText("Your score is " + yourScore.totalScore());
                         playerScore2.setText("Comp score is " + compScore.totalScore());
                     } else if (actualQuestion.getCorrectAnswerIndex() == 1 && actualQuestion.getCorrectAnswerIndex() != n) {
+                        if(actualQuestion.getScore()== 1000000){
+                            questionBody.setText("JESTE\u015A MILIONEREM!");
+                            yourScore.addScore(actualQuestion.getScore());
+                            compScore.addScore(actualQuestion.getScore());
+                            playerScore1.setText("Your score is " + yourScore.totalScore());
+                            playerScore2.setText("Comp score is " + compScore.totalScore());
+                        }
                         questionBody.setText("WIN! Keep on playing");
                         yourScore.addScore(actualQuestion.getScore());
                         playerScore1.setText("Your score is " + yourScore.totalScore());
@@ -196,19 +272,37 @@ public class Milionerzy extends Application {
                         playerScore1.setText("Your score is " + yourScore.totalScore());
                         playerScore2.setText("Comp score is " + compScore.totalScore());
                     }
+                     */
                 });
                 answer3.setText(actualQuestion.getAnswers().get(2));
                 answer3.setOnAction(event -> {
                     answer1.setDisable(true);
                     answer2.setDisable(true);
                     answer4.setDisable(true);
-                    if(actualQuestion.getCorrectAnswerIndex()==2 && actualQuestion.getCorrectAnswerIndex()==n) {
+                    ButtonAction action3 = new ButtonAction(actualQuestion);
+                    action3.setButtonAction(2);
+                    action3.setScore();
+                    /**if(actualQuestion.getCorrectAnswerIndex()==2 && actualQuestion.getCorrectAnswerIndex()==n &&actualQuestion.getScore()== 1000000) {
+                        questionBody.setText("JESTE\u015A MILIONEREM!");
+                        questionLadder.setDisable(true);
+                        yourScore.addScore(actualQuestion.getScore());
+                        compScore.addScore(actualQuestion.getScore());
+                        playerScore1.setText("Your score is " + yourScore.totalScore());
+                        playerScore2.setText("Comp score is " + compScore.totalScore());
+                    } else if(actualQuestion.getCorrectAnswerIndex()==2 && actualQuestion.getCorrectAnswerIndex()==n && actualQuestion.getScore()!=1000000) {
                         questionBody.setText("CORRECT ANSWER: DRAW!");
                         yourScore.addScore(actualQuestion.getScore());
                         compScore.addScore(actualQuestion.getScore());
                         playerScore1.setText("Your score is " + yourScore.totalScore());
                         playerScore2.setText("Comp score is " + compScore.totalScore());
                     } else if (actualQuestion.getCorrectAnswerIndex()==2 && actualQuestion.getCorrectAnswerIndex() != n) {
+                        if(actualQuestion.getScore()== 1000000){
+                            questionBody.setText("JESTE\u015A MILIONEREM!");
+                            yourScore.addScore(actualQuestion.getScore());
+                            compScore.addScore(actualQuestion.getScore());
+                            playerScore1.setText("Your score is " + yourScore.totalScore());
+                            playerScore2.setText("Comp score is " + compScore.totalScore());
+                        }
                         questionBody.setText("WIN! Keep on playing");
                         yourScore.addScore(actualQuestion.getScore());
                         playerScore1.setText("Your score is " + yourScore.totalScore());
@@ -223,19 +317,37 @@ public class Milionerzy extends Application {
                         playerScore1.setText("Your score is " + yourScore.totalScore());
                         playerScore2.setText("Comp score is " + compScore.totalScore());
                     }
+                     */
                 });
                 answer4.setText(actualQuestion.getAnswers().get(3));
                 answer4.setOnAction(event -> {
                     answer1.setDisable(true);
                     answer2.setDisable(true);
                     answer3.setDisable(true);
-                    if(actualQuestion.getCorrectAnswerIndex()==3 && actualQuestion.getCorrectAnswerIndex()== n) {
+                    ButtonAction action4= new ButtonAction(actualQuestion);
+                    action4.setButtonAction(3);
+                    action4.setScore();
+                    /**if(actualQuestion.getCorrectAnswerIndex()==3 && actualQuestion.getCorrectAnswerIndex()==n &&actualQuestion.getScore()== 1000000) {
+                        questionBody.setText("JESTE\u015A MILIONEREM!");
+                        questionLadder.setDisable(true);
+                        yourScore.addScore(actualQuestion.getScore());
+                        compScore.addScore(actualQuestion.getScore());
+                        playerScore1.setText("Your score is " + yourScore.totalScore());
+                        playerScore2.setText("Comp score is " + compScore.totalScore());
+                    } else if(actualQuestion.getCorrectAnswerIndex()==3 && actualQuestion.getCorrectAnswerIndex()==n && actualQuestion.getScore()!= 1000000) {
                         questionBody.setText("CORRECT ANSWER: DRAW!");
                         yourScore.addScore(actualQuestion.getScore());
                         compScore.addScore(actualQuestion.getScore());
                         playerScore1.setText("Your score is " + yourScore.totalScore());
                         playerScore2.setText("Comp score is " + compScore.totalScore());
                     } else if(actualQuestion.getCorrectAnswerIndex() == 3 && actualQuestion.getCorrectAnswerIndex()!= n) {
+                        if(actualQuestion.getScore()== 1000000){
+                            questionBody.setText("JESTE\u015A MILIONEREM!");
+                            yourScore.addScore(actualQuestion.getScore());
+                            compScore.addScore(actualQuestion.getScore());
+                            playerScore1.setText("Your score is " + yourScore.totalScore());
+                            playerScore2.setText("Comp score is " + compScore.totalScore());
+                        }
                         questionBody.setText("WIN: Keep on playing!");
                         yourScore.addScore(actualQuestion.getScore());
                         playerScore1.setText("Your score is " + yourScore.totalScore());
@@ -246,10 +358,11 @@ public class Milionerzy extends Application {
                         playerScore1.setText("Your score is " + yourScore.totalScore());
                         playerScore2.setText("Comp score is " + compScore.totalScore());
                     } else {
-                        questionBody.setText("WRONG ANSWER: Game over!");
+                        questionBody.setText("WRONG ANSWER!");
                         playerScore1.setText("Your score is " + yourScore.totalScore());
                         playerScore2.setText("Comp score is " + compScore.totalScore());
                     }
+                     */
                 });
         });
 

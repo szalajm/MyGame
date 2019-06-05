@@ -37,7 +37,7 @@ public class QAndAsMap {
 
         theMap.put("500", level1);
 
-        QAndAs q2_1 = new QAndAs("\u015Awięto g\u00F3rnik\u00F3w to inaczej", "1000", 1000, 1, "Andrzejki", "Barb\u00F3rka", "Sob\u00F3tka", "Ostatki");
+        QAndAs q2_1 = new QAndAs("\u015Awi\u0119to g\u00F3rnik\u00F3w to inaczej", "1000", 1000, 1, "Andrzejki", "Barb\u00F3rka", "Sob\u00F3tka", "Ostatki");
         QAndAs q2_2 = new QAndAs("Jak cz\u0119\u015B\u0107 mowy odpowiada na pytania: kto? co?", "1000", 1000, 2, "Przymiotnik", "Czasownik", "Rzeczownik", "Pu\u0142kownik");
 
         List<QAndAs> level2 = new ArrayList<>();
@@ -65,7 +65,7 @@ public class QAndAsMap {
         theMap.put("5000", level4);
 
         QAndAs q5_1 = new QAndAs("Polska jest tradycyjnym ta\u0144cem....", "10000", 10000, 2, "polskim", "ukrai\u0144skim", "czeskim", "litewski");
-        QAndAs q5_2 = new QAndAs("Kt\u00F3ry polski pi\u0142karz zosta\u0142 kr\u00F3lem strzelc\u00F3w Mistrzostw \u015Awiata", "10000", 10000, 1, "Lato", "Lewandowski", "Boniek", "Deyna");
+        QAndAs q5_2 = new QAndAs("Kt\u00F3ry polski pi\u0142karz zosta\u0142 kr\u00F3lem strzelc\u00F3w Mistrzostw \u015Awiata", "10000", 10000, 0, "Lato", "Lewandowski", "Boniek", "Deyna");
 
         List<QAndAs> level5 = new ArrayList<>();
         level5.add(q5_1);
