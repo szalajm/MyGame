@@ -119,60 +119,240 @@ public class Milionerzy extends Application {
         scores.getChildren().add(playerScore1);
 
         PlayerScore yourScore = new PlayerScore();
-        PlayerScore compScore = new PlayerScore();
-
-
-        class ButtonAction {
-            private QAndAs theQuestion;
-
-            public ButtonAction (QAndAs theQuestion) {
-                this.theQuestion = theQuestion;
-            }
-
-            public void setButtonAction(int buttonIndex) {
-                if(theQuestion.getCorrectAnswerIndex()== buttonIndex && theQuestion.getScore()==100000) {
-                    questionBody.setText("JESTE\u015A MILIONEREM!!!");
-                    questionLadder.setDisable(true);
-                } else if (theQuestion.getCorrectAnswerIndex() == buttonIndex && theQuestion.getScore() != 1000000) {
-                    questionBody.setText("CORRECT ANSWER!");
-                } else {
-                    questionBody.setText("GAME OVER!");
-                    questionLadder.setDisable(true);
-                }
-            }
-
-            public void setScore() {
-                if(theQuestion.getScore() < 10000) {
-                    playerScore1.setText("Your score is" + theQuestion.getScore());
-                    playerScore2.setText("Your guaranteed win is 0");
-                }else if(theQuestion.getScore() >= 10000 && theQuestion.getScore() < 75000) {
-                    playerScore1.setText("Your score is" + theQuestion.getScore());
-                    playerScore2.setText("Your guaranteed win is 10000");
-                }else if(theQuestion.getScore() >=75000 && theQuestion.getScore() < 125000) {
-                    playerScore1.setText("Your score is" + theQuestion.getScore());
-                    playerScore2.setText("Your guaranteed win is 75000");
-                }else if(theQuestion.getScore() >= 125000 && theQuestion.getScore()<1000000) {
-                    playerScore1.setText("Your score is" + theQuestion.getScore());
-                    playerScore2.setText("Your guaranteed win is 125000");
-                }else{
-                    playerScore1.setText("Your score is" + theQuestion.getScore());
-                    playerScore2.setText("Your guaranteed win is 1000000!!!");
-                }
-            }
-
-        }
+        // PlayerScore compScore = new PlayerScore();
+        //List<String> valueList = Arrays.asList("500", "1000", "2000", "5000", "10000", "20000", "40000", "75000", "125000", "250000", "500000", "1000000");
 
         List<String> valueList = Arrays.asList("500", "1000", "2000", "5000", "10000", "20000", "40000", "75000", "125000", "250000", "500000", "1000000");
         for (String value : valueList) {
-            Random random = new Random();
-            Integer n = random.nextInt(4);
+            // Random random = new Random();
+            // Integer n = random.nextInt(4);
             HBox box = new HBox();
             box.setStyle("-fx-padding: 6px; -fx-border-color: red; -fx-border-width: 5 px; -fx-alignment: center");
             Text text = new Text(value);
             text.setStyle("-fx-font-size: 20px; -webkit-fx-padding-bottom: 2px");
             box.getChildren().add(text);
             questionLadder.getChildren().add(box);
-            box.setOnMouseClicked(e -> {
+        }
+
+
+        NewQuestion newQuestion = new NewQuestion(questionLadder, questionBody, valueList);
+
+        class FinishedQuestion {
+
+            Integer current =0;
+
+            public void setFinishedQuestion() {
+                QAndAs actualQuestion = theMap.getActualQuestion(valueList.get(current));
+                questionBody.setText(actualQuestion.getQuestionBody());
+                answer1.setText(actualQuestion.getAnswers().get(0));
+                answer1.setOnAction(event -> {
+                    answer2.setDisable(true);
+                    answer3.setDisable(true);
+                    answer4.setDisable(true);
+                    ButtonAction action1 = new ButtonAction(actualQuestion,questionBody,questionLadder, newQuestion);
+                    action1.setButtonAction(0);
+                    ScoreSetter score1 = new ScoreSetter(actualQuestion, playerScore1, playerScore2);
+                    score1.setScore();
+                });
+                answer2.setText(actualQuestion.getAnswers().get(1));
+                answer2.setOnAction(event -> {
+                    answer1.setDisable(true);
+                    answer3.setDisable(true);
+                    answer4.setDisable(true);
+                    ButtonAction action2 = new ButtonAction(actualQuestion, questionBody, questionLadder, newQuestion);
+                    action2.setButtonAction(1);
+                    ScoreSetter score2 = new ScoreSetter(actualQuestion, playerScore1, playerScore2);
+                    score2.setScore();
+                });
+                answer3.setText(actualQuestion.getAnswers().get(2));
+                answer3.setOnAction(event -> {
+                    answer1.setDisable(true);
+                    answer2.setDisable(true);
+                    answer4.setDisable(true);
+                    ButtonAction action3 = new ButtonAction(actualQuestion, questionBody, questionLadder, newQuestion);
+                    action3.setButtonAction(2);
+                    ScoreSetter score3 = new ScoreSetter(actualQuestion, playerScore1, playerScore2);
+                    score3.setScore();
+                });
+                answer4.setText(actualQuestion.getAnswers().get(3));
+                answer4.setOnAction(event -> {
+                    answer1.setDisable(true);
+                    answer2.setDisable(true);
+                    answer3.setDisable(true);
+                    ButtonAction action4 = new ButtonAction(actualQuestion, questionBody, questionLadder, newQuestion);
+                    action4.setButtonAction(3);
+                    ScoreSetter score4 = new ScoreSetter(actualQuestion, playerScore1, playerScore2);
+                    score4.setScore();
+                });
+                current++;
+            }
+        }
+
+        FinishedQuestion finishedQuestion = new FinishedQuestion();
+        finishedQuestion.setFinishedQuestion();
+
+
+                //});
+                /**answer2.setText(actualQuestion.getAnswers().get(1));
+                 answer2.setOnAction(event -> {
+                 answer1.setDisable(true);
+                 answer3.setDisable(true);
+                 answer4.setDisable(true);
+                 com.kodilla.ButtonAction action2 = new com.kodilla.ButtonAction(actualQuestion);
+                 action2.setButtonAction(1);
+                 action2.setScore();
+                 /**if(actualQuestion.getCorrectAnswerIndex()==1 && actualQuestion.getCorrectAnswerIndex() == n && actualQuestion.getScore()== 1000000) {
+                 questionBody.setText("JESTE\u015A MILIONEREM!");
+                 questionLadder.setDisable(true);
+                 yourScore.addScore(actualQuestion.getScore());
+                 compScore.addScore(actualQuestion.getScore());
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 } else if(actualQuestion.getCorrectAnswerIndex()==1 && actualQuestion.getCorrectAnswerIndex() == n && actualQuestion.getScore() != 1000000) {
+                 questionBody.setText("CORRECT ANSWER: DRAW!");
+                 yourScore.addScore(actualQuestion.getScore());
+                 compScore.addScore(actualQuestion.getScore());
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 } else if (actualQuestion.getCorrectAnswerIndex() == 1 && actualQuestion.getCorrectAnswerIndex() != n) {
+                 if(actualQuestion.getScore()== 1000000){
+                 questionBody.setText("JESTE\u015A MILIONEREM!");
+                 yourScore.addScore(actualQuestion.getScore());
+                 compScore.addScore(actualQuestion.getScore());
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 }
+                 questionBody.setText("WIN! Keep on playing");
+                 yourScore.addScore(actualQuestion.getScore());
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 } else if (actualQuestion.getCorrectAnswerIndex()!=1 && actualQuestion.getCorrectAnswerIndex()== n){
+                 questionBody.setText("WRONG ANSWER");
+                 compScore.addScore(actualQuestion.getScore());
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 } else {
+                 questionBody.setText("WRONG ANSWER!");
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 }
+                 */
+                //});
+                /** answer3.setText(actualQuestion.getAnswers().get(2));
+                 answer3.setOnAction(event -> {
+                 answer1.setDisable(true);
+                 answer2.setDisable(true);
+                 answer4.setDisable(true);
+                 com.kodilla.ButtonAction action3 = new com.kodilla.ButtonAction(actualQuestion);
+                 action3.setButtonAction(2);
+                 action3.setScore();
+                 /**if(actualQuestion.getCorrectAnswerIndex()==2 && actualQuestion.getCorrectAnswerIndex()==n &&actualQuestion.getScore()== 1000000) {
+                 questionBody.setText("JESTE\u015A MILIONEREM!");
+                 questionLadder.setDisable(true);
+                 yourScore.addScore(actualQuestion.getScore());
+                 compScore.addScore(actualQuestion.getScore());
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 } else if(actualQuestion.getCorrectAnswerIndex()==2 && actualQuestion.getCorrectAnswerIndex()==n && actualQuestion.getScore()!=1000000) {
+                 questionBody.setText("CORRECT ANSWER: DRAW!");
+                 yourScore.addScore(actualQuestion.getScore());
+                 compScore.addScore(actualQuestion.getScore());
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 } else if (actualQuestion.getCorrectAnswerIndex()==2 && actualQuestion.getCorrectAnswerIndex() != n) {
+                 if(actualQuestion.getScore()== 1000000){
+                 questionBody.setText("JESTE\u015A MILIONEREM!");
+                 yourScore.addScore(actualQuestion.getScore());
+                 compScore.addScore(actualQuestion.getScore());
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 }
+                 questionBody.setText("WIN! Keep on playing");
+                 yourScore.addScore(actualQuestion.getScore());
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 } else if (actualQuestion.getCorrectAnswerIndex()!= 2 && actualQuestion.getCorrectAnswerIndex()==n){
+                 questionBody.setText("WRONG ANSWER!");
+                 compScore.addScore(actualQuestion.getScore());
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 } else {
+                 questionBody.setText("WRONG ANSWER!");
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 }
+                 */
+                // });
+                /**answer4.setText(actualQuestion.getAnswers().get(3));
+                 answer4.setOnAction(event -> {
+                 answer1.setDisable(true);
+                 answer2.setDisable(true);
+                 answer3.setDisable(true);
+                 com.kodilla.ButtonAction action4= new com.kodilla.ButtonAction(actualQuestion);
+                 action4.setButtonAction(3);
+                 action4.setScore();
+                 /**if(actualQuestion.getCorrectAnswerIndex()==3 && actualQuestion.getCorrectAnswerIndex()==n &&actualQuestion.getScore()== 1000000) {
+                 questionBody.setText("JESTE\u015A MILIONEREM!");
+                 questionLadder.setDisable(true);
+                 yourScore.addScore(actualQuestion.getScore());
+                 compScore.addScore(actualQuestion.getScore());
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 } else if(actualQuestion.getCorrectAnswerIndex()==3 && actualQuestion.getCorrectAnswerIndex()==n && actualQuestion.getScore()!= 1000000) {
+                 questionBody.setText("CORRECT ANSWER: DRAW!");
+                 yourScore.addScore(actualQuestion.getScore());
+                 compScore.addScore(actualQuestion.getScore());
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 } else if(actualQuestion.getCorrectAnswerIndex() == 3 && actualQuestion.getCorrectAnswerIndex()!= n) {
+                 if(actualQuestion.getScore()== 1000000){
+                 questionBody.setText("JESTE\u015A MILIONEREM!");
+                 yourScore.addScore(actualQuestion.getScore());
+                 compScore.addScore(actualQuestion.getScore());
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 }
+                 questionBody.setText("WIN: Keep on playing!");
+                 yourScore.addScore(actualQuestion.getScore());
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 } else if (actualQuestion.getCorrectAnswerIndex()!=3 && actualQuestion.getCorrectAnswerIndex()==n) {
+                 questionBody.setText("WRONG ANSWER!");
+                 compScore.addScore(actualQuestion.getScore());
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 } else {
+                 questionBody.setText("WRONG ANSWER!");
+                 playerScore1.setText("Your score is " + yourScore.totalScore());
+                 playerScore2.setText("Comp score is " + compScore.totalScore());
+                 }
+        }
+
+        class QuestionProcessor {
+            private VBox questionLadder;
+
+            public QuestionProcessor(VBox questionLadder) {
+                this.questionLadder = questionLadder;
+            }
+
+            public void FinishedQuestion (String value) {
+                HBox box = (HBox) questionLadder.getChildren().get(0);
+                box.setStyle("-fx-background-color: red; -fx-padding: 6px; -fx-border-color: red; -fx-border-width: 5 px; -fx-alignment: center");
+                Text text = new Text(value);
+                text.setFill(YELLOW);
+                answer1.setDisable(false);
+                answer2.setDisable(false);
+                answer3.setDisable(false);
+                answer4.setDisable(false);
+
+
+            }
+
+        }
+
+
+
+            /**box.setOnMouseClicked(e -> {
                 box.setStyle("-fx-background-color: red; -fx-padding: 6px; -fx-border-color: red; -fx-border-width: 5 px; -fx-alignment: center");
                 text.setFill(YELLOW);
                 answer1.setDisable(false);
@@ -189,7 +369,7 @@ public class Milionerzy extends Application {
                     answer2.setDisable(true);
                     answer3.setDisable(true);
                     answer4.setDisable(true);
-                    ButtonAction action1 = new ButtonAction(actualQuestion);
+                    com.kodilla.ButtonAction action1 = new com.kodilla.ButtonAction(actualQuestion);
                     action1.setButtonAction(0);
                     action1.setScore();
                     /**if (actualQuestion.getCorrectAnswerIndex() == 0 && actualQuestion.getScore() == 1000000) {
@@ -228,13 +408,13 @@ public class Milionerzy extends Application {
                         playerScore2.setText("Comp score is " + compScore.totalScore());
                     }
                      */
-                });
-                answer2.setText(actualQuestion.getAnswers().get(1));
+                //});
+                /**answer2.setText(actualQuestion.getAnswers().get(1));
                 answer2.setOnAction(event -> {
                     answer1.setDisable(true);
                     answer3.setDisable(true);
                     answer4.setDisable(true);
-                    ButtonAction action2 = new ButtonAction(actualQuestion);
+                    com.kodilla.ButtonAction action2 = new com.kodilla.ButtonAction(actualQuestion);
                     action2.setButtonAction(1);
                     action2.setScore();
                     /**if(actualQuestion.getCorrectAnswerIndex()==1 && actualQuestion.getCorrectAnswerIndex() == n && actualQuestion.getScore()== 1000000) {
@@ -273,13 +453,13 @@ public class Milionerzy extends Application {
                         playerScore2.setText("Comp score is " + compScore.totalScore());
                     }
                      */
-                });
-                answer3.setText(actualQuestion.getAnswers().get(2));
+                //});
+                /** answer3.setText(actualQuestion.getAnswers().get(2));
                 answer3.setOnAction(event -> {
                     answer1.setDisable(true);
                     answer2.setDisable(true);
                     answer4.setDisable(true);
-                    ButtonAction action3 = new ButtonAction(actualQuestion);
+                    com.kodilla.ButtonAction action3 = new com.kodilla.ButtonAction(actualQuestion);
                     action3.setButtonAction(2);
                     action3.setScore();
                     /**if(actualQuestion.getCorrectAnswerIndex()==2 && actualQuestion.getCorrectAnswerIndex()==n &&actualQuestion.getScore()== 1000000) {
@@ -318,13 +498,13 @@ public class Milionerzy extends Application {
                         playerScore2.setText("Comp score is " + compScore.totalScore());
                     }
                      */
-                });
-                answer4.setText(actualQuestion.getAnswers().get(3));
+                // });
+                /**answer4.setText(actualQuestion.getAnswers().get(3));
                 answer4.setOnAction(event -> {
                     answer1.setDisable(true);
                     answer2.setDisable(true);
                     answer3.setDisable(true);
-                    ButtonAction action4= new ButtonAction(actualQuestion);
+                    com.kodilla.ButtonAction action4= new com.kodilla.ButtonAction(actualQuestion);
                     action4.setButtonAction(3);
                     action4.setScore();
                     /**if(actualQuestion.getCorrectAnswerIndex()==3 && actualQuestion.getCorrectAnswerIndex()==n &&actualQuestion.getScore()== 1000000) {
@@ -363,9 +543,8 @@ public class Milionerzy extends Application {
                         playerScore2.setText("Comp score is " + compScore.totalScore());
                     }
                      */
-                });
-        });
-
+                // });
+        // });
 
             GridPane theGrid = new GridPane();
             theGrid.setBackground(background);
@@ -398,7 +577,6 @@ public class Milionerzy extends Application {
             theGrid.add(scores,1,1);
 
 
-
             Scene theScene = new Scene(theGrid, 1600, 900, Color.BLACK);
 
             primaryStage.setTitle("Milionerzy");
@@ -406,5 +584,5 @@ public class Milionerzy extends Application {
             primaryStage.show();
         }
     }
-}
+//}
 
